@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+stages:
+  - stage: BuildDev
+    pool:
+      name: Default
+      displayName: "Building-Dev"
+    
+    jobs:
+      - job: Building
+        steps:
+          - task: UsePythonVersion@0
+            displayName: "Use python version 3.8"
+            inputs:
+              versionSpec: '3.8'
+          
+          - task: CmdLine@2
+            displayName: Upgrafe PIP tool
+            inputs:
+              script: python -m pip install --upgrade pip
+          
+          - task: CmdLine@2
+            displayName: "Install Requiremnents"
+            inputs:
+              script: |
+                pip install -r requirements.txt
+          
+          - task: CmdLine@2
+            displayName: Generating Reports
+            inputs:
+              script: |
+                python -m pytest -v -c pytest.ini --cov-config=.coveragerc --junitxml=results.xml --cov=. --cov-report=xml --cov-report=html
+          
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              summaryFileLocation: 'coverage.xml'
+              reportDirectory: "htmlcov"
+          
+
+
