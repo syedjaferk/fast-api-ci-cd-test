@@ -38,7 +38,7 @@ stages:
                 pip install pytest pytest-azurepipelines
                 pip install pytest-cov
                 python3 -m pytest -v -c pytest.ini --cov-config=.coveragerc --junitxml=results.xml --cov=. --cov-report=xml --cov-report=html
-          
+          # https://learn.microsoft.com/en-us/azure/devops/pipelines/ecosystems/customize-python?view=azure-devops#test
           - task: PublishTestResults@2
             condition: succeededOrFailed()
             inputs:
