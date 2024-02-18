@@ -43,6 +43,8 @@ stages:
               codeCoverageTool: Cobertura
               summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
               reportDirectory: "$(System.DefaultWorkingDirectory)/htmlcov"
+            env:
+              DISABLE_COVERAGE_AUTOGENERATE: 'true'
           
 
 
