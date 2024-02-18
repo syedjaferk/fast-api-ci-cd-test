@@ -1,2 +1,5 @@
 testYaml
 *.pyc
+.coverage
+coverage.xml
+results.xml
