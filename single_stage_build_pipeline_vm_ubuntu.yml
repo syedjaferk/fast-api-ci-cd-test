@@ -52,6 +52,16 @@ stages:
               summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
               reportDirectory: "$(System.DefaultWorkingDirectory)/htmlcov"
 
-          
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: 'Free Trial(2)(44740981-b69b-4527-a3e9-fd65a5fe212b)'
+              appType: 'webAppLinux'
+              appName: 'fastapitesting'
+              deployToSlotOrASE: true
+              resourceGroupName: 'rg-learning-cloud'
+              slotName: 'production'
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              runtimeStack: 'PYTHON|3.10'
+              startUpCommand: 'uvicorn app:app'
 
 
