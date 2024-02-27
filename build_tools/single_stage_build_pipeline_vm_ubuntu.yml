@@ -37,7 +37,7 @@ stages:
               script: |
                 pip install pytest pytest-azurepipelines
                 pip install pytest-cov
-                python -m pytest -v -c pytest.ini --cov-config=.coveragerc --junitxml=results.xml --cov=. --cov-report=xml --cov-report=html
+                python -m pytest -v -c ./code/pytest.ini --cov-config=.coveragerc --junitxml=results.xml --cov=. --cov-report=xml --cov-report=html
           # https://learn.microsoft.com/en-us/azure/devops/pipelines/ecosystems/customize-python?view=azure-devops#test
           - task: PublishTestResults@2
             condition: succeededOrFailed()
@@ -54,15 +54,18 @@ stages:
 
           - task: ArchiveFiles@2
             inputs:
-              rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/code'
               includeRootFolder: false
               archiveType: 'zip'
               archiveFile: '$(System.ArtifactStagingDirectory)/$(Build.BuildId).zip'
               replaceExistingArchive: true
+    
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'drop'
+              publishLocation: "Container"
+
 
           - task: AzureWebApp@1
             inputs:
