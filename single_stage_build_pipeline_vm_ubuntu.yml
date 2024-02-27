@@ -15,21 +15,21 @@ stages:
     jobs:
       - job: Building
         steps:
-          # - task: UsePythonVersion@0
-          #   displayName: "Use python version 3.8"
-          #   inputs:
-          #     versionSpec: '3.8'
+          - task: UsePythonVersion@0
+            displayName: "Use python version 3.8"
+            inputs:
+              versionSpec: '3.8'
           
           - task: CmdLine@2
             displayName: Upgrafe PIP tool
             inputs:
-              script: python3 -m pip install --upgrade pip
+              script: python -m pip install --upgrade pip
           
           - task: CmdLine@2
             displayName: "Install Requiremnents"
             inputs:
               script: |
-                pip3 install -r requirements.txt
+                pip install -r requirements.txt
           
           - task: CmdLine@2
             displayName: Generating Reports
@@ -37,7 +37,7 @@ stages:
               script: |
                 pip install pytest pytest-azurepipelines
                 pip install pytest-cov
-                python3 -m pytest -v -c pytest.ini --cov-config=.coveragerc --junitxml=results.xml --cov=. --cov-report=xml --cov-report=html
+                python -m pytest -v -c pytest.ini --cov-config=.coveragerc --junitxml=results.xml --cov=. --cov-report=xml --cov-report=html
           # https://learn.microsoft.com/en-us/azure/devops/pipelines/ecosystems/customize-python?view=azure-devops#test
           - task: PublishTestResults@2
             condition: succeededOrFailed()
