@@ -76,7 +76,7 @@ stages:
               deployToSlotOrASE: true
               resourceGroupName: 'rg-learning-cloud'
               slotName: 'production'
-              package: '$(Pipeline.Workspace)/code'
+              package: '$(Build.ArtifactStagingDirectory)/drop/*.zip'
               runtimeStack: 'PYTHON|3.10'
               startUpCommand: 'uvicorn app:app'
 
