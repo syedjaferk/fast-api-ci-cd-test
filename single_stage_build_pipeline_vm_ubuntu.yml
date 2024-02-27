@@ -57,7 +57,7 @@ stages:
               rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
               includeRootFolder: false
               archiveType: 'zip'
-              archiveFile: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+              archiveFile: '$(System.ArtifactStagingDirectory)/$(Build.BuildId).zip'
               replaceExistingArchive: true
           - task: PublishBuildArtifacts@1
             inputs:
