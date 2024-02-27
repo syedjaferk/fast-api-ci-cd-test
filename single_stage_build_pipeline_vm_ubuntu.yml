@@ -52,6 +52,18 @@ stages:
               summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
               reportDirectory: "$(System.DefaultWorkingDirectory)/htmlcov"
 
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+              replaceExistingArchive: true
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+
           - task: AzureWebApp@1
             inputs:
               azureSubscription: 'Free Trial(2)(44740981-b69b-4527-a3e9-fd65a5fe212b)'
@@ -60,7 +72,7 @@ stages:
               deployToSlotOrASE: true
               resourceGroupName: 'rg-learning-cloud'
               slotName: 'production'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              package: '$(Pipeline.Workspace)/drop/*.zip'
               runtimeStack: 'PYTHON|3.10'
               startUpCommand: 'uvicorn app:app'
 
